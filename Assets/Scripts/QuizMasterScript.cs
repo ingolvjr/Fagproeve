@@ -71,14 +71,24 @@ public class QuizMasterScript : MonoBehaviour
 
     public void SubmitAnswer(ObjectScript Object)
     {
+        StartCoroutine(_submitAnswer(Object));
+    }
+
+    private IEnumerator _submitAnswer(ObjectScript Object)
+    {
         if (Object == _correctObject)
+        {
             _correctObject.AddPoint();
-        else
+            _billBoardText.color = new Color(0, 255, 0, 255);
+        }
+        else{
             _correctObject.RemovePoint();
-    
+            _billBoardText.color = new Color(255, 0, 0, 255);
+        }
         if (Object.Points >= 3)
             _objectList.Remove(Object);
-
+        yield return new WaitForSeconds(2f);
+        _billBoardText.color = new Color(255, 255, 255, 255);
         _randomObject();
         ResetPositionEvent.Invoke();
     }
