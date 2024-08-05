@@ -1,0 +1,51 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using TMPro;
+using UnityEngine.XR.Interaction.Toolkit;
+
+public class ObjectScript : MonoBehaviour
+{
+    [SerializeField]private int _points;
+    public int Points {get {return _points;}}
+    [SerializeField]private Color color;
+    public List<string> ColorName;
+    [SerializeField] private List<TMP_Text> Counters;
+    [SerializeField] private Vector3 _originalPosition;
+
+    void Start()
+    {
+        GetComponent<MeshRenderer>().material.color = color;
+        Counters.AddRange(GetComponentsInChildren<TMP_Text>());
+        _originalPosition = gameObject.transform.position;
+        QuizMasterScript.Instance.ResetPositionEvent.AddListener(_resetPosition);
+    }
+
+    public void AddPoint()
+    {
+        _points++;
+        UpdateCanvases();
+    }
+    public void RemovePoint()
+    {
+        if (_points > 0 && _points < 3)
+            _points--;
+        UpdateCanvases();
+    }
+
+    private void UpdateCanvases()
+    {
+        foreach (TMP_Text Counter in Counters)
+            Counter.text = _points.ToString();
+    }
+
+    private void _resetPosition()
+    {
+        GetComponent<XRGrabInteractable>().enabled = false;
+        GetComponent<Rigidbody>().isKinematic = true;
+        gameObject.transform.position = _originalPosition;
+        transform.rotation = Quaternion.identity;
+        GetComponent<Rigidbody>().isKinematic = false;
+        GetComponent<XRGrabInteractable>().enabled = true;
+    }
+}
