@@ -76,6 +76,7 @@ public class QuizMasterScript : MonoBehaviour
 
     private IEnumerator _submitAnswer(ObjectScript Object)
     {
+        ResetPositionEvent.Invoke();
         if (Object == _correctObject)
         {
             _correctObject.AddPoint();
@@ -90,7 +91,6 @@ public class QuizMasterScript : MonoBehaviour
         yield return new WaitForSeconds(2f);
         _billBoardText.color = new Color(255, 255, 255, 255);
         _randomObject();
-        ResetPositionEvent.Invoke();
     }
 
     private void _updateBillboard()
