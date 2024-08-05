@@ -60,6 +60,11 @@ public class QuizMasterScript : MonoBehaviour
         if (!_objectList.Any())
             return;
         var randomIndex = Random.Range(0, _objectList.Count);
+        if (_objectList[randomIndex] == _correctObject)
+        {
+            _randomObject();
+            return;
+        }
         _correctObject = _objectList[randomIndex];
         _updateBillboard();
     }
