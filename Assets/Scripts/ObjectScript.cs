@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.XR.Interaction.Toolkit;
 
 public class ObjectScript : MonoBehaviour
 {
@@ -17,6 +18,7 @@ public class ObjectScript : MonoBehaviour
         GetComponent<MeshRenderer>().material.color = color;
         Counters.AddRange(GetComponentsInChildren<TMP_Text>());
         _originalPosition = gameObject.transform.position;
+        QuizMasterScript.Instance.ResetPositionEvent.AddListener(_resetPosition);
     }
 
     public void AddPoint()
@@ -36,8 +38,14 @@ public class ObjectScript : MonoBehaviour
         foreach (TMP_Text Counter in Counters)
             Counter.text = _points.ToString();
     }
-    private void ResetPosition()
+
+    private void _resetPosition()
     {
+        GetComponent<XRGrabInteractable>().enabled = false;
+        GetComponent<Rigidbody>().isKinematic = true;
         gameObject.transform.position = _originalPosition;
+        transform.rotation = Quaternion.identity;
+        GetComponent<Rigidbody>().isKinematic = false;
+        GetComponent<XRGrabInteractable>().enabled = true;
     }
 }

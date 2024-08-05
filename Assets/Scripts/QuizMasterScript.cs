@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using TMPro;
+using UnityEngine.Events;
 
 public class QuizMasterScript : MonoBehaviour
 {
     public static QuizMasterScript Instance { get; private set;}
+    public UnityEvent ResetPositionEvent;
     [SerializeField] private List<ObjectScript> _objectList;
     [SerializeField] private ObjectScript _correctObject;
     private List<ObjectScript> _objectsToRemove = new List<ObjectScript>();
@@ -73,6 +75,7 @@ public class QuizMasterScript : MonoBehaviour
             _objectList.Remove(Object);
 
         _randomObject();
+        ResetPositionEvent.Invoke();
     }
 
     private void _updateBillboard()
