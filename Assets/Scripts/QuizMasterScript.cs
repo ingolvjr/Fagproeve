@@ -10,12 +10,17 @@ public class QuizMasterScript : MonoBehaviour
     public static QuizMasterScript Instance { get; private set;}
     // event objects subscribe to for resetting position
     public UnityEvent ResetPositionEvent;
+
+    [SerializeField] private List<AudioSource> _audioSources;
+
     // List of all objects
     [SerializeField] private List<ObjectScript> _objectList;
     // Correct object user must submit to get points
     [SerializeField] private ObjectScript _correctObject;
     // temporary List used to make sure there are no duplicate objects
-    private List<ObjectScript> _objectsToRemove;
+    [SerializeField] private List<ObjectScript> _objectsToRemove;
+    [SerializeField] private TMP_Text _billBoardText;
+    [SerializeField] private List<string> _finishText;
 
     //Custom type for selecting language in a user-friendly way
     public enum language
@@ -25,11 +30,8 @@ public class QuizMasterScript : MonoBehaviour
     }
     //Variable holding active language and a public readonly variable with active language
     [SerializeField] private language _language;
-    [SerializeField] private TMP_Text _billBoardText;
-    [SerializeField] private List<string> _finishText;
     public language Language {get => _language;}
     //Reference to the billboard text element
-    [SerializeField] private TMP_Text _billBoardText;
     void Awake()
     {
         //making sure there is only one QuizManager in the scene and sets up easy calls to the active QuizManager
@@ -70,6 +72,7 @@ public class QuizMasterScript : MonoBehaviour
         {
             _correctObject = null;
             _billBoardText.text = _finishText[(int)_language];
+            _audioSources[2].Play();
             return;
         }
         var randomIndex = Random.Range(0, _objectList.Count);
@@ -94,14 +97,16 @@ public class QuizMasterScript : MonoBehaviour
         {
             _correctObject.AddPoint();
             _billBoardText.color = new Color(0, 255, 0, 255);
+            _audioSources[0].Play();
         }
         else{
             _correctObject.RemovePoint();
             _billBoardText.color = new Color(255, 0, 0, 255);
+            _audioSources[1].Play();
         }
         if (Object.Points >= 3)
             _objectList.Remove(Object);
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(1f);
         _billBoardText.color = new Color(255, 255, 255, 255);
         _randomObject();
     }
