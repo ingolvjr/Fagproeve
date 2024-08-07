@@ -9,6 +9,7 @@ public class ObjectScript : MonoBehaviour
     [SerializeField]private int _points;
     public int Points {get {return _points;}}
     [SerializeField]private Color color;
+    //string of color names in different languages
     public List<string> ColorName;
     [SerializeField] private List<TMP_Text> Counters;
     [SerializeField] private Vector3 _originalPosition;
@@ -16,7 +17,9 @@ public class ObjectScript : MonoBehaviour
     void Start()
     {
         GetComponent<MeshRenderer>().material.color = color;
+        //adds the visual point counters to a list
         Counters.AddRange(GetComponentsInChildren<TMP_Text>());
+        //Stores the objects initial position
         _originalPosition = gameObject.transform.position;
         QuizMasterScript.Instance.ResetPositionEvent.AddListener(_resetPosition);
     }
@@ -41,6 +44,7 @@ public class ObjectScript : MonoBehaviour
 
     private void _resetPosition()
     {
+        //very complicated logic to reset the objects position, rotation and velocity
         GetComponent<XRGrabInteractable>().enabled = false;
         GetComponent<Rigidbody>().isKinematic = true;
         gameObject.transform.position = _originalPosition;
