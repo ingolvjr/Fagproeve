@@ -7,6 +7,7 @@ public class LanguageSelectObject : MonoBehaviour
 {
     public QuizMasterScript.language Language;
 
+// Dynamically set the canvas text
     void Start()
     {
         gameObject.GetComponentInChildren<TMP_Text>().text = Language.ToString();

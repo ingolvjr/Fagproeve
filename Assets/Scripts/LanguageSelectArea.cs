@@ -15,6 +15,7 @@ public class LanguageSelectArea : MonoBehaviour
             _language = LanguageObject.Language;
         }
     }
+    //Actual method for changing the active language
     public void AttemptLanguageChange() {
         QuizMasterScript.Instance.SetLanguage(_language);
     }
