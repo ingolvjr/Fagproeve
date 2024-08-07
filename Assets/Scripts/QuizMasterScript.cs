@@ -20,6 +20,7 @@ public class QuizMasterScript : MonoBehaviour
     }
     [SerializeField] private language _language;
     [SerializeField] private TMP_Text _billBoardText;
+    [SerializeField] private List<string> _finishText;
     public language Language {get => _language;}
     void Awake()
     {
@@ -57,10 +58,14 @@ public class QuizMasterScript : MonoBehaviour
 
     private void _randomObject()
     {
-        if (!_objectList.Any())
+        if (!_objectList.Any()) 
+        {
+            _correctObject = null;
+            _billBoardText.text = _finishText[(int)_language];
             return;
+        }
         var randomIndex = Random.Range(0, _objectList.Count);
-        if (_objectList[randomIndex] == _correctObject)
+        if (_objectList[randomIndex] == _correctObject && _objectList.Count > 1)
         {
             _randomObject();
             return;

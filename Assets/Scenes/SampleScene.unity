@@ -176,6 +176,9 @@ MonoBehaviour:
   Colors: []
   _language: 1
   _billBoardText: {fileID: 722403627}
+  _finishText:
+  - Ferdig
+  - Finished
 --- !u!1 &155457489
 GameObject:
   m_ObjectHideFlags: 0
