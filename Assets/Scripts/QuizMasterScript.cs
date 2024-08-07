@@ -115,4 +115,10 @@ public class QuizMasterScript : MonoBehaviour
     {
         _billBoardText.text = _correctObject.ColorName[(int) _language];
     }
+
+    public void SetLanguage(language NewLanguage)
+    {
+        _language = NewLanguage;
+        _updateBillboard();
+    }
 }
