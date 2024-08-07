@@ -25,6 +25,8 @@ public class QuizMasterScript : MonoBehaviour
     }
     //Variable holding active language and a public readonly variable with active language
     [SerializeField] private language _language;
+    [SerializeField] private TMP_Text _billBoardText;
+    [SerializeField] private List<string> _finishText;
     public language Language {get => _language;}
     //Reference to the billboard text element
     [SerializeField] private TMP_Text _billBoardText;
@@ -64,12 +66,14 @@ public class QuizMasterScript : MonoBehaviour
         //pick a random color object from the list, set it as the correct color object and update the billboard
     private void _randomObject()
     {
-        if (!_objectList.Any())
+        if (!_objectList.Any()) 
+        {
+            _correctObject = null;
+            _billBoardText.text = _finishText[(int)_language];
             return;
+        }
         var randomIndex = Random.Range(0, _objectList.Count);
-        
-        //Make sure the new correct object is different from the last one
-        if (_objectList[randomIndex] == _correctObject)
+        if (_objectList[randomIndex] == _correctObject && _objectList.Count > 1)
         {
             _randomObject();
             return;

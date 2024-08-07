@@ -26,6 +26,8 @@ public class ObjectScript : MonoBehaviour
 
     public void AddPoint()
     {
+        if (Points >= 3)
+            return;
         _points++;
         UpdateCanvases();
     }
